@@ -13,7 +13,7 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\ZooKeeperKey.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>ZooKeeperKey.snk</AssemblyOriginatorKeyFile>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
@@ -40,7 +40,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\..\..\Bandex\MDC\Trunk\bin\Debug\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG;ZOOKEEPER</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -67,9 +67,6 @@
     <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\SolutionVersion.cs">
-      <Link>SolutionVersion.cs</Link>
-    </Compile>
     <Compile Include="ClientConnection.cs" />
     <Compile Include="ClientConnectionRequestProducer.cs">
       <SubType>Code</SubType>
@@ -131,6 +128,7 @@
     <Compile Include="Generated\TxnHeader.cs" />
     <Compile Include="Generated\WatcherEvent.cs" />
     <Compile Include="RetryPolicy.cs" />
+    <Compile Include="SolutionVersion.cs" />
     <Compile Include="ZKPaths.cs" />
     <Compile Include="CreateMode.cs" />
     <Compile Include="DataTree.cs" />
@@ -175,9 +173,6 @@
     <Compile Include="ZooKeeperEx.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\ZooKeeperKey.snk" />
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
       <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
@@ -194,7 +189,9 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="ZooKeeperKey.snk" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if "$(ConfigurationName)"=="Release" copy $(TargetPath) E:\Library\3rdLibs\dotNet\</PostBuildEvent>
