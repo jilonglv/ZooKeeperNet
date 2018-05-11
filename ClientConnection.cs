@@ -367,7 +367,7 @@ namespace ZooKeeperNet
             if(Interlocked.CompareExchange(ref isClosed,1,0) == 0)
             {
                 //closing = true;
-                if (LOG.IsDebugEnabled)
+                if (LOG.IsTraceEnabled)
                     LOG.Debug("Closing client for session: 0x{0:X}", SessionId);
 
                 try

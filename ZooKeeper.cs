@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-﻿namespace ZooKeeperNet
+namespace ZooKeeperNet
 {
     using System;
     using System.Linq;
@@ -280,7 +280,8 @@
         /// </param>
         public ZooKeeper(string connectstring, TimeSpan sessionTimeout, IWatcher watcher)
         {
-            LOG.Info("Initiating client connection, connectstring={0} sessionTimeout={1} watcher={2}", connectstring, sessionTimeout, watcher);
+            if (LOG.IsTraceEnabled)
+                LOG.Info("Initiating client connection, connectstring={0} sessionTimeout={1} watcher={2}", connectstring, sessionTimeout, watcher);
 
             watchManager.DefaultWatcher = watcher;
             cnxn = new ClientConnection(connectstring, sessionTimeout, this, watchManager);
@@ -289,7 +290,8 @@
 
         public ZooKeeper(string connectstring, TimeSpan sessionTimeout, IWatcher watcher, long sessionId, byte[] sessionPasswd)
         {
-            LOG.Info("Initiating client connection, connectstring={0} sessionTimeout={1} watcher={2} sessionId={3} sessionPasswd={4}", connectstring, sessionTimeout, watcher, sessionId, (sessionPasswd == null ? "<null>" : "<hidden>"));
+            if (LOG.IsTraceEnabled)
+                LOG.Info("Initiating client connection, connectstring={0} sessionTimeout={1} watcher={2} sessionId={3} sessionPasswd={4}", connectstring, sessionTimeout, watcher, sessionId, (sessionPasswd == null ? "<null>" : "<hidden>"));
 
             watchManager.DefaultWatcher = watcher;
             cnxn = new ClientConnection(connectstring, sessionTimeout, this, watchManager, sessionId, sessionPasswd);
@@ -405,14 +407,14 @@
             var connectionState = State;
             if (null != connectionState && !connectionState.IsAlive())
             {
-                if (LOG.IsDebugEnabled)
+                if (LOG.IsTraceEnabled)
                 {
                     LOG.Debug("Close called on already closed client");
                 }
                 return;
             }
 
-            if (LOG.IsDebugEnabled)
+            if (LOG.IsTraceEnabled)
             {
                 LOG.Debug("Closing session: 0x{0:X}", SessionId);
             }
@@ -429,7 +431,8 @@
                 }
             }
 
-            LOG.Debug("Session: 0x{0:X} closed", SessionId);
+            if (LOG.IsTraceEnabled)
+                LOG.Debug("Session: 0x{0:X} closed", SessionId);
         }
 
         public void Dispose()
@@ -518,7 +521,7 @@
 
             RequestHeader h = new RequestHeader();
             h.Type = (int)OpCode.Create;
-            CreateRequest request = new CreateRequest(serverPath,data,acl,createMode.Flag);
+            CreateRequest request = new CreateRequest(serverPath, data, acl, createMode.Flag);
             CreateResponse response = new CreateResponse();
             ReplyHeader r = cnxn.SubmitRequest(h, request, response, null);
             if (r.Err != 0)
@@ -571,7 +574,7 @@
 
             RequestHeader h = new RequestHeader();
             h.Type = (int)OpCode.Delete;
-            DeleteRequest request = new DeleteRequest(serverPath,version);
+            DeleteRequest request = new DeleteRequest(serverPath, version);
             ReplyHeader r = cnxn.SubmitRequest(h, request, null, null);
             if (r.Err != 0)
             {
@@ -750,7 +753,7 @@
 
             RequestHeader h = new RequestHeader();
             h.Type = (int)OpCode.SetData;
-            SetDataRequest request = new SetDataRequest(serverPath,data,version);
+            SetDataRequest request = new SetDataRequest(serverPath, data, version);
             SetDataResponse response = new SetDataResponse();
             ReplyHeader r = cnxn.SubmitRequest(h, request, response, null);
             if (r.Err != 0)
@@ -826,7 +829,7 @@
 
             RequestHeader h = new RequestHeader();
             h.Type = (int)OpCode.SetACL;
-            SetACLRequest request = new SetACLRequest(serverPath,acl,version);
+            SetACLRequest request = new SetACLRequest(serverPath, acl, version);
             SetACLResponse response = new SetACLResponse();
             ReplyHeader r = cnxn.SubmitRequest(h, request, response, null);
             if (r.Err != 0)
@@ -909,7 +912,7 @@
         /// @throws InterruptedException If the server transaction is interrupted.
         /// @throws KeeperException If the server signals an error with a non-zero error code.
         /// @throws IllegalArgumentException if an invalid path is specified
-         /// </summary>
+        /// </summary>
 
         public IEnumerable<string> GetChildren(string path, IWatcher watcher, Stat stat)
         {

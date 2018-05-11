@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-﻿namespace ZooKeeperNet
+namespace ZooKeeperNet
 {
     using System;
     using System.Collections.Concurrent;
@@ -32,7 +32,7 @@
         private readonly Thread eventThread;
         //ConcurrentQueue gives us the non-blocking way of processing, it reduced the contention so much
         internal readonly BlockingCollection<ClientConnection.WatcherSetEventPair> waitingEvents = new BlockingCollection<ClientConnection.WatcherSetEventPair>();
-        
+
         /** This is really the queued session state until the event
          * thread actually processes the event and hands it to the watcher.
          * But for all intents and purposes this is the state.
@@ -50,7 +50,7 @@
             eventThread.Start();
         }
 
-        private static void ProcessWatcher(IEnumerable<IWatcher> watchers,WatchedEvent watchedEvent)
+        private static void ProcessWatcher(IEnumerable<IWatcher> watchers, WatchedEvent watchedEvent)
         {
             foreach (IWatcher watcher in watchers)
             {
@@ -72,7 +72,7 @@
         {
             try
             {
-                while(!waitingEvents.IsCompleted)
+                while (!waitingEvents.IsCompleted)
                 {
                     try
                     {
@@ -102,8 +102,8 @@
             {
                 LOG.Error("Event thread exiting due to interruption", e);
             }
-
-            LOG.Info("EventThread shut down");
+            if (LOG.IsTraceEnabled)
+                LOG.Info("EventThread shut down");
         }
 
         public void QueueEvent(WatchedEvent @event)
@@ -112,11 +112,11 @@
 
             if (waitingEvents.IsAddingCompleted)
                 throw new InvalidOperationException("consumer has been disposed");
-            
+
             sessionState = @event.State;
 
             // materialize the watchers based on the event
-            var pair = new ClientConnection.WatcherSetEventPair(conn.watcher.Materialize(@event.State, @event.Type,@event.Path), @event);
+            var pair = new ClientConnection.WatcherSetEventPair(conn.watcher.Materialize(@event.State, @event.Type, @event.Path), @event);
             // queue the pair (watch set & event) for later processing
             waitingEvents.Add(pair);
         }
