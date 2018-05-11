@@ -541,7 +541,7 @@ namespace ZooKeeperNet
                 if (replyHdr.Xid == -2)
                 {
                     // -2 is the xid for pings
-                    if (LOG.IsDebugEnabled)
+                    if (LOG.IsTraceEnabled)
                         LOG.Debug("Got ping response for sessionid: 0x{0:X} after {1}ms", conn.SessionId, (DateTime.UtcNow.Nanos() - lastPingSentNs) / 1000000);
                     return;
                 }
@@ -549,14 +549,14 @@ namespace ZooKeeperNet
                 {
                     // -2 is the xid for AuthPacket
                     // TODO: process AuthPacket here
-                    if (LOG.IsDebugEnabled)
+                    if (LOG.IsTraceEnabled)
                         LOG.Debug("Got auth sessionid:0x{0:X}", conn.SessionId);
                     return;
                 }
                 if (replyHdr.Xid == -1)
                 {
                     // -1 means notification
-                    if (LOG.IsDebugEnabled)
+                    if (LOG.IsTraceEnabled)
                         LOG.Debug("Got notification sessionid:0x{0}", conn.SessionId);
 
                     WatcherEvent @event = new WatcherEvent();
@@ -573,7 +573,7 @@ namespace ZooKeeperNet
                     }
 
                     WatchedEvent we = new WatchedEvent(@event);
-                    if (LOG.IsDebugEnabled)
+                    if (LOG.IsTraceEnabled)
                         LOG.Debug("Got {0} for sessionid 0x{1:X}", we, conn.SessionId);
 
                     conn.consumer.QueueEvent(we);
@@ -603,7 +603,7 @@ namespace ZooKeeperNet
                         if (packet.response != null && replyHdr.Err == 0)
                             packet.response.Deserialize(bbia, "response");
 
-                        if (LOG.IsDebugEnabled)
+                        if (LOG.IsTraceEnabled)
                             LOG.Debug("Reading reply sessionid:0x{0:X}, packet:: {1}", conn.SessionId, packet);
                     }
                     finally
