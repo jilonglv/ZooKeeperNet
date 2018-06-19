@@ -187,13 +187,13 @@ namespace ZooKeeperNet
                     {
                         // this is ugly, you have a better way speak up
                         if (e is KeeperException.SessionExpiredException)
-                            LOG.Info("{0}, closing socket connection", e.Message);
+                            LOG.Info("{0}, closing socket connection SessionExpiredException", e.Message);
                         else if (e is SessionTimeoutException)
-                            LOG.Info("{0}{1}", e.Message, RETRY_CONN_MSG);
+                            LOG.Info("{0}{1} SessionTimeoutException", e.Message, RETRY_CONN_MSG);
                         else if (e is System.IO.EndOfStreamException)
-                            LOG.Info("{0}{1}", e.Message, RETRY_CONN_MSG);
+                            LOG.Info("{0}{1} EndOfStreamException", e.Message, RETRY_CONN_MSG);
                         else
-                            LOG.Info("Session 0x{0:X} for server {1}, unexpected error{2}, detail:{3}-{4}", conn.SessionId, null, RETRY_CONN_MSG, e.Message, e.StackTrace);
+                            LOG.Info("Session 0x{0:X} for server {1}, unexpected error{2},detail:{3}-{4}", conn.SessionId, null, RETRY_CONN_MSG, e.Message, e.StackTrace);
                         // a safe-net ...there's a packet about to send when an exception happen
                         if (packet != null)
                             ConLossPacket(packet);
@@ -230,7 +230,7 @@ namespace ZooKeeperNet
                 catch (IOException e)
                 {
                     if (LOG.IsDebugEnabled)
-                        LOG.Debug("Ignoring exception during channel close", e);
+                        LOG.Debug("Ignoring exception during channel close {0}", e);
                 }
             }
 
@@ -270,7 +270,7 @@ namespace ZooKeeperNet
                     }
                     catch (ThreadInterruptedException e1)
                     {
-                        LOG.Warn("Unexpected exception", e1);
+                        LOG.Warn("Unexpected exception {0}", e1);
                     }
                     if (!zkEndpoints.IsNextEndPointAvailable)
                     {
@@ -281,7 +281,7 @@ namespace ZooKeeperNet
                         }
                         catch (ThreadInterruptedException e)
                         {
-                            LOG.Warn("Unexpected exception", e);
+                            LOG.Warn("Unexpected exception {0}", e);
                         }
                     }
                 }

@@ -82,7 +82,7 @@ namespace ZooKeeperNet
                 }
                 catch (IOException e)
                 {
-                    LOG.Warn("Ignoring unexpected exception", e);
+                    LOG.Warn("Ignoring unexpected exception {0}", e);
                 }
             }
             this.watchRegistration = watchRegistration;

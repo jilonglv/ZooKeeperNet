@@ -427,7 +427,7 @@ namespace ZooKeeperNet
             {
                 if (LOG.IsDebugEnabled)
                 {
-                    LOG.Debug("Ignoring unexpected exception during close", e);
+                    LOG.Debug("Ignoring unexpected exception during close {0}", e);
                 }
             }
 

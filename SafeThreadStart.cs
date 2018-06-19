@@ -39,7 +39,7 @@ namespace ZooKeeperNet
             }
             catch (Exception e)
             {
-                LOG.Error("Unhandled exception in background thread", e);
+                LOG.Error("Unhandled exception in background thread {0}", e);
             }            
         }
     }

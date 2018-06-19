@@ -63,7 +63,7 @@ namespace ZooKeeperNet
                 }
                 catch (Exception t)
                 {
-                    LOG.Error("Error while calling watcher ", t);
+                    LOG.Error("Error while calling watcher {0}", t);
                 }
             }
         }
@@ -94,13 +94,13 @@ namespace ZooKeeperNet
                     }
                     catch (Exception t)
                     {
-                        LOG.Error("Caught unexpected throwable", t);
+                        LOG.Error("Caught unexpected throwable {0}", t);
                     }
                 }
             }
             catch (ThreadInterruptedException e)
             {
-                LOG.Error("Event thread exiting due to interruption", e);
+                LOG.Error("Event thread exiting due to interruption {0}", e);
             }
             if (LOG.IsTraceEnabled)
                 LOG.Info("EventThread shut down");
